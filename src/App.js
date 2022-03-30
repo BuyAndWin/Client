@@ -6,7 +6,8 @@ import PrizesPage from "./PrizesPage";
 import RafflesPage from "./RafflesPage";
 
 export default function App() {
-  const prizesArray = [
+  // let prizesArray;
+  let prizesArray = [
     {
       ID: 1,
       name: "חדר ילדים",
@@ -105,18 +106,26 @@ export default function App() {
     },
   ];
 
+  const connectServer = () => {
+    fetch("http://localhost:3000/items")
+      .then(res => { prizesArray = res;; console.log(res); })
+      .catch(err => console.log("error!! ", err));
+  }
+
   return (
-    <Routes>
-      <Route path="Prizes" element={<PrizesPage prizesArray={prizesArray} />} />
-      <Route
-        path="PaymentPage"
-        element={<PaymentPage prizesArray={prizesArray} />}
-      />
-      <Route
-        path="RafflesPage"
-        element={<RafflesPage prizesArray={prizesArray} />}
-      />
-      <Route path="" element={<PrizesPage prizesArray={prizesArray} />} />
-    </Routes>
+    <div onLoad={connectServer}>
+      <Routes>
+        <Route path="Prizes" element={<PrizesPage prizesArray={prizesArray} />} />
+        <Route
+          path="PaymentPage"
+          element={<PaymentPage prizesArray={prizesArray} />}
+        />
+        <Route
+          path="RafflesPage"
+          element={<RafflesPage prizesArray={prizesArray} />}
+        />
+        <Route path="" element={<PrizesPage prizesArray={prizesArray} />} />
+      </Routes>
+    </div>
   );
 }
